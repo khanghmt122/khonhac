@@ -1,5 +1,5 @@
-# Production Dockerfile for KhoNhac
-FROM node:22-bullseye-slim AS builder
+# Production Dockerfile for KhoNhac on Render
+FROM node:22-bookworm-slim AS builder
 
 WORKDIR /app
 
@@ -10,14 +10,15 @@ COPY . .
 RUN npm run build
 
 # Runner stage
-FROM node:22-bullseye-slim
+FROM node:22-bookworm-slim
 
 WORKDIR /app
 
-# Install Python3, ffmpeg & yt-dlp
+# Install ca-certificates, curl and standalone yt-dlp binary
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends python3 python3-pip ffmpeg && \
-    pip3 install --no-cache-dir --break-system-packages yt-dlp && \
+    apt-get install -y --no-install-recommends ca-certificates curl && \
+    curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp && \
+    chmod a+rx /usr/local/bin/yt-dlp && \
     rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder /app/package*.json ./
@@ -31,7 +32,7 @@ RUN mkdir -p downloads
 
 ENV PORT=3001
 ENV NODE_ENV=production
-ENV YTDLP_PATH=yt-dlp
+ENV YTDLP_PATH=/usr/local/bin/yt-dlp
 
 EXPOSE 3001
 
