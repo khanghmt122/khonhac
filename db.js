@@ -88,6 +88,17 @@ export function createUser(username, email, password) {
   };
 }
 
+// Auto-seed default user "He" if database is freshly created
+try {
+  const existingHe = db.prepare('SELECT id FROM users WHERE LOWER(username) = ?').get('he');
+  if (!existingHe) {
+    createUser('He', 'he@khonhac.vn', 'khonhac_secret');
+    console.log('[DB] Auto-seeded default account: He / khonhac_secret');
+  }
+} catch (err) {
+  console.warn('[DB] Seeding error:', err);
+}
+
 export function findUserByEmailOrUsername(identifier) {
   const stmt = db.prepare(`
     SELECT * FROM users
