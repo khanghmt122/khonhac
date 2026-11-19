@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2250%22 fill=%22%231db954%22/><circle cx=%2250%22 cy=%2250%22 r=%2220%22 fill=%22%23000%22/></svg>" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KhoNhac – Nền Tảng Nghe Nhạc Trực Tuyến & Ngoại Tuyến Miễn Phí</title>
+    <!-- YouTube IFrame API for full song playback -->
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch(err => console.warn('SW err:', err));
+        });
+      }
+    </script>
+  </head>
+  <body class="bg-black text-white overflow-hidden select-none antialiased">
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

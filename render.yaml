@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: khonhac
+    env: docker
+    plan: free
+    region: singapore
+    buildCommand: ""
+    startCommand: ""
+    envVars:
+      - key: PORT
+        value: 3001
+      - key: NODE_ENV
+        value: production
